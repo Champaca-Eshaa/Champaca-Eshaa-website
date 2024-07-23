@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+
+@keyframes riseAndFade {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .rise-fade {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  .rise-fade-visible {
+    animation: riseAndFade .5s ease-in-out forwards;
+  }
+
+  .product-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  
+  .product-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(10deg);
+    }
+  }
+  
+  .animate-spin-on-load {
+    animation: spin 1s ease-in-out;
+  }
+  
+  
