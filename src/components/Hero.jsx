@@ -27,7 +27,7 @@ const Hero = () => {
             With Pure Artistry
           </p>
         </div>
-        <div className="relative flex flex-col items-center  text-center rise-fade">
+        <div className="relative flex flex-col items-center  text-center rise-fade max-md:pt-20">
           <img
             className="scale-75 max-sm:scale-90 brightness-"
             src={statue1}

@@ -12,7 +12,7 @@ const Products = () => {
       </div>
       <div className="relative grid gap-8  max-xl:gap-4 max-xl:grid-cols-2 xl:grid-cols-4 justify-around  max-sm:p-0 max-md:p-5 p-20">
         {products.map((item) => (
-          <div key={item.id} className=" relative even:translate-y-20 max-md:even:translate-y-10 w-full bg-slate-700 bg-opacity-20 backdrop-blur-md overflow-hidden  rounded-3xl border border-amber-500 border-opacity-50">
+          <div key={item.id} className=" relative even:translate-y-20 max-md:even:translate-y-10 w-full bg-amber-400 bg-opacity-10 backdrop-blur-md overflow-hidden  rounded-3xl border border-amber-500 border-opacity-50">
             <img
               className=" relative w-full rounded"
               src={item.image_url}

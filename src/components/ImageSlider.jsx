@@ -1,7 +1,9 @@
 import React from 'react';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const ImageSlider = ({ folderName, className }) => {
   const [images, setImages] = React.useState([]);
@@ -13,7 +15,7 @@ const ImageSlider = ({ folderName, className }) => {
       let imageLoaded = true;
 
       while (imageLoaded) {
-        const url = `../assets/${folderName}/img (${i}).png`;
+        const url = `/assets/${folderName}/img (${i}).png`; // Adjust path as needed
         try {
           await new Promise((resolve, reject) => {
             const img = new Image();
@@ -54,7 +56,7 @@ const ImageSlider = ({ folderName, className }) => {
       <Slider {...settings}>
         {images.map((src, index) => (
           <div key={index} className='flex items-center justify-center'>
-            <img className='size-full' src={src} alt={`Slide ${index + 1}`} />
+            <img className='w-full h-auto' src={src} alt={`Slide ${index + 1}`} />
           </div>
         ))}
       </Slider>
