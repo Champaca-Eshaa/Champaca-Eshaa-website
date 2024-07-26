@@ -23,6 +23,7 @@ const Contact = () => {
         working days. For immediate assistance, you can reach us via phone or
         follow us on our social media platforms.
       </p>
+      <p className="py-3"> email: xyz@champacaeshaa.in</p>
       <p className="py-3"> phone: +91 96000 05369</p>
 
       <div className="flex py-3 space-x-6">
@@ -42,7 +43,7 @@ const Contact = () => {
         >
           <TbBrandWhatsapp />
 
-          <p>Chat with us</p>
+          <p>Message us on Whatsapp</p>
         </a>
       </div>
 

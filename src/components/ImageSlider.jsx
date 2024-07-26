@@ -31,7 +31,7 @@ const ImageSlider = ({ folderName, className }) => {
           });
         } catch (error) {
           // If an image fails to load, stop loading further images
-          console.log("Image not found or failed to load");
+          console.log("all images loaded successfully");
           break;
         }
         i++;

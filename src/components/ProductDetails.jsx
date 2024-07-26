@@ -19,7 +19,8 @@ const ProductDetails = () => {
     <p>{product.description}</p>
   </div>
   <div className=" m-10  ">
-    <ImageSlider folderName={product.folderName} />
+    {/* <ImageSlider folderName={product.folderName} /> */}
+    <ImageSlider folderName={"brass-items"} />
   </div>
 </div>
 
