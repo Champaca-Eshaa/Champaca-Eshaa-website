@@ -43,7 +43,7 @@ const Contact = () => {
         >
           <TbBrandWhatsapp />
 
-          <p>Message us on Whatsapp</p>
+          <p>chat with us</p>
         </a>
       </div>
 

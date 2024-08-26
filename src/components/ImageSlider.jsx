@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const ImageSlider = ({ folderName, className }) => {
   const [images, setImages] = React.useState([]);
 
@@ -30,8 +29,7 @@ const ImageSlider = ({ folderName, className }) => {
             };
           });
         } catch (error) {
-          // If an image fails to load, stop loading further images
-          console.log("all images loaded successfully");
+          console.log("All images loaded successfully");
           break;
         }
         i++;
@@ -48,18 +46,30 @@ const ImageSlider = ({ folderName, className }) => {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    beforeChange: (current, next) => {
+      document.querySelectorAll('.slick-slide').forEach((slide) => {
+        slide.classList.remove('animate-zoom-in');
+        slide.classList.remove('animate-zoom-out');
+      });
+      document.querySelector(`.slick-slide[data-index="${current}"]`).classList.add('animate-zoom-out');
+      document.querySelector(`.slick-slide[data-index="${next}"]`).classList.add('animate-zoom-in');
+    }
   };
 
   return (
-    <div className={`image-slider ${className}`}>
-      <Slider {...settings}>
-        {images.map((src, index) => (
-          <div key={index} className='flex items-center justify-center'>
-            <img className='w-full h-auto' src={src} alt={`Slide ${index + 1}`} />
-          </div>
-        ))}
-      </Slider>
+    <div className='border rounded-3xl border-amber-500 border-opacity-75  bg-amber-600 bg-opacity-15 backdrop-blur-md'>
+      <div className={`image-slider ${className}`}>
+        <Slider {...settings}>
+          {images.map((src, index) => (
+            <div key={index} className=''>
+              <div className='flex items-center justify-center'>
+                <img className='w-full h-auto rounded-3xl' src={src} alt={`Slide ${index + 1}`} />
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };
