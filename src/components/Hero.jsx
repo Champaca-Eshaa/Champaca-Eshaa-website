@@ -27,7 +27,7 @@ const Hero = () => {
             With Pure Artistry
           </p>
         </div>
-        <div className="relative flex flex-col items-center  text-center rise-fade">
+        <div className="relative flex flex-col items-center  text-center rise-fade max-md:pt-20">
           <img
             className="scale-75 max-sm:scale-90 brightness-"
             src={statue1}
@@ -35,7 +35,7 @@ const Hero = () => {
           />
           <div className="absolute flex justify-center h-screen">
           <ScrollParallax isAbsolutelyPositioned={false}>
-            <div className="scale-75 brightness-75">
+            <div className="scale-75 -pt-10 brightness-75">
               <img src={lamp} alt="lamp" className="-rotate-12" />
             </div>
           </ScrollParallax>

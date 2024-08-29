@@ -14,7 +14,7 @@ const Header = () => {
         <div className="inline-flex p-3 text-center items-center">
           <img className="w-12 h-12" src={logo} alt="logo" />
           <div className=" font-bold text-2xl pl-5 text-white">
-            <HashLink to="/#hero" onClick={() => setMenuOpen(false)}>
+            <HashLink to="/#hero"  onClick={() => setMenuOpen(false)}>
               Champaca Eshaa
             </HashLink>
           </div>
@@ -36,8 +36,8 @@ const Header = () => {
           <p className="px-5 ">Whatsapp</p>
         </div> */}
         {menuOpen && (
-        <div className="fixed top-0 left-0 right-0 bg-black bg-opacity-80 backdrop-blur-md backdrop-filter text-white text-lg flex flex-col items-center md:hidden h-screen">
-          <Background/>
+        <div className="fixed z-50 top-0 left-0 right-0 bg-black bg-opacity-80 backdrop-blur-md  text-white text-lg flex flex-col items-center md:hidden h-screen">
+          {/* <Background/> */}
           <div className="absolute top-5 right-5">
             <FiX size={30} color="white" onClick={() => setMenuOpen(false)} />
           </div>

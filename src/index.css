@@ -1,6 +1,8 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 html { scroll-behavior: smooth; }
 
@@ -48,5 +50,43 @@ html { scroll-behavior: smooth; }
   .animate-spin-on-load {
     animation: spin 1s ease-in-out;
   }
-  
-  
+
+/* Global CSS or Tailwind CSS file */
+.slide-in {
+  @apply opacity-100 scale-100 duration-1000;
+}
+
+.slide-out {
+  @apply opacity-0 scale-90 duration-1000;
+}
+
+/* customSlider.css */
+@keyframes zoomOutLeft {
+  0% {
+    transform: scale(1) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes zoomInRight {
+  0% {
+    transform: scale(1.2) translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-zoom-out {
+  animation: zoomOutLeft 0.5s ease forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomInRight 0.5s ease forwards;
+}

@@ -1,58 +1,132 @@
-import { useEffect, useState } from "react";
-import { MouseParallax } from "react-just-parallax";
+import React, { useEffect, useState, useMemo } from "react";
 
-// Reusable Circle component
-const Circle = ({ size, left, top, rotate, mounted }) => (
-  <div
-    className={`absolute w-${size} h-${size} -ml-${size / 2} -mt-${size / 2} transform rotate-${rotate} ${
-      mounted ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-    }`}
-    style={{
-      left: `${left}%`,
-      top: `${top}%`,
-    }}
-  >
-    <div className="w-full h-full bg-gradient-to-b from-yellow-200 to-yellow-700 rounded-full" />
-  </div>
-);
+const generateRandomParticles = (numParticles) => {
+  const particles = [];
+  for (let i = 0; i < numParticles; i++) {
+    const top = Math.random() * 100 + "%";
+    const left = Math.random() * 100 + "%";
+    const size = Math.random() * 1.5 + 0.5 + "rem"; // Size between 0.5rem and 2rem
+    particles.push({
+      id: i,
+      top,
+      left,
+      size,
+      xOffset: Math.random() * 2 - 1, // Random initial offset
+      yOffset: Math.random() * 2 - 1, // Random initial offset
+      delay: Math.random() * 2, // Random delay between 0s and 2s
+    });
+  }
+  return particles;
+};
 
-// Circlesbg component
 const Circlesbg = () => {
-  const [mounted, setMounted] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const particles = useMemo(() => generateRandomParticles(50), []);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    const handleMouseMove = (event) => {
+      setCursorPos({ x: event.clientX, y: event.clientY });
+    };
 
-  const circles = [
-    { id: 1, size: 6, left: 25, top: 25, rotate: 46 },
-    { id: 2, size: 8, left: 75, top: 10, rotate: -56 },
-    { id: 3, size: 8, left: 15, top: 50, rotate: 54 },
-    { id: 4, size: 7, left: 85, top: 80, rotate: -65 },
-    { id: 5, size: 12, left: 50, top: 30, rotate: -85 },
-    { id: 6, size: 12, left: 30, top: 70, rotate: 70 },
-    { id: 7, size: 10, left: 70, top: 60, rotate: 30 },
-    { id: 8, size: 9, left: 40, top: 20, rotate: -45 },
-    { id: 9, size: 8, left: 60, top: 90, rotate: 60 },
-    { id: 10, size: 14, left: 80, top: 40, rotate: -20 },
-  ];
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
   return (
     <div className="absolute w-full h-screen overflow-hidden -z-20">
-      <MouseParallax strength={0.07}>
-        {circles.map((circle) => (
-          <Circle
-            key={circle.id}
-            size={circle.size}
-            left={circle.left}
-            top={circle.top}
-            rotate={circle.rotate}
-            mounted={mounted}
-          />
-        ))}
-      </MouseParallax>
+      {particles.map((particle) => {
+        // Calculate particle's current position
+        const particleCenter = {
+          x: (parseFloat(particle.left) / 100) * window.innerWidth + particle.xOffset,
+          y: (parseFloat(particle.top) / 100) * window.innerHeight + particle.yOffset,
+        };
+
+        // Calculate distance from cursor
+        const dx = cursorPos.x - particleCenter.x;
+        const dy = cursorPos.y - particleCenter.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Calculate force based on distance
+        const maxDistance = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
+        const force = Math.max((1 - distance / maxDistance) * 2, 0.5); // Adjust intensity
+
+        // Calculate new position
+        const newLeft = Math.min(
+          Math.max(
+            (parseFloat(particle.left) / 100) * window.innerWidth - dx / distance * force,
+            0
+          ),
+          window.innerWidth
+        );
+        const newTop = Math.min(
+          Math.max(
+            (parseFloat(particle.top) / 100) * window.innerHeight - dy / distance * force,
+            0
+          ),
+          window.innerHeight
+        );
+
+        return (
+          <div
+            key={particle.id}
+            className="absolute"
+            style={{
+              top: `${(newTop / window.innerHeight) * 100}%`,
+              left: `${(newLeft / window.innerWidth) * 100}%`,
+              transform: `translate(-50%, -50%)`,
+            }}
+          >
+            <div
+              className={`bg-gradient-to-b from-yellow-300 to-yellow-600 rounded-full transition-transform duration-500 ease-out`}
+              style={{
+                width: particle.size,
+                height: particle.size,
+                filter: `blur(${calculateBlur(particle)}px)`,
+                animation: `twinkle 1s infinite alternate`,
+                animationDelay: `${particle.delay}s`,
+              }}
+            />
+          </div>
+        );
+      })}
+      <style>
+        {`
+          @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+          }
+        `}
+      </style>
     </div>
   );
+
+  function calculateBlur(particle) {
+    const particleCenter = {
+      x: (parseFloat(particle.left) / 100) * window.innerWidth,
+      y: (parseFloat(particle.top) / 100) * window.innerHeight,
+    };
+
+    const distance = Math.sqrt(
+      Math.pow(cursorPos.x - particleCenter.x, 2) +
+      Math.pow(cursorPos.y - particleCenter.y, 2)
+    );
+
+    // Reduce overall blur amount and decrease unblur radius around the cursor
+    const maxDistance = Math.sqrt(
+      Math.pow(window.innerWidth, 2) +
+      Math.pow(window.innerHeight, 2)
+    );
+
+    const blurAmount = 30; // Reduced overall blur amount
+    const blurRadius = 30; // Radius around cursor where particles are less blurred
+
+    return distance < blurRadius
+      ? 0 // Less blur if within blur radius
+      : Math.min((distance / maxDistance) * blurAmount, blurAmount); // Gradual blur outside radius
+  }
 };
 
 export default Circlesbg;

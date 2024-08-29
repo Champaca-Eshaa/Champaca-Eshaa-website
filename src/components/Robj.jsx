@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
-const Robj = ({ image, className, direction, speed }) => {
+const Robj = ({ image, className, direction, speed, scaleStrength }) => {
   const [rotation, setRotation] = useState(0);
-  
+  const [scale, setScale] = useState(1);
+
   useEffect(() => {
-    setRotation(10)
     const handleScroll = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      // Adjust rotation directly proportional to the scrollTop value
-      setRotation(10 + (direction * scrollTop * speed));
+      const newRotation = 10 + (direction * scrollTop * speed);
+      const newScale = Math.max(1 - (scrollTop / scaleStrength), 0.5); // Use scaleStrength parameter
+
+      setRotation(newRotation);
+      setScale(newScale);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -16,12 +19,14 @@ const Robj = ({ image, className, direction, speed }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [direction, speed]);
+  }, [direction, speed, scaleStrength]);
 
   return (
     <div
-      className={`fixed z-0 transition-transform duration-0 animate-spin-on-load ${className}`}
-      style={{ transform: `rotate(${rotation}deg)` }}
+      className={`fixed z-0 transition-transform duration-0 ${className}`}
+      style={{ 
+        transform: `rotate(${rotation}deg) scale(${scale})`, 
+      }}
     >
       <img src={image} alt="rotating object" className="w-full h-full object-cover brightness-75" />
     </div>
