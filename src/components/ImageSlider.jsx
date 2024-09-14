@@ -10,8 +10,6 @@ const ImageSlider = ({ folderName, className }) => {
 
   React.useEffect(() => {
     const loadImages = async () => {
-      const imagesArray = [];
-      const loadedImages = new Set();
       let i = 1;
       let keepLoading = true;
 
@@ -22,24 +20,19 @@ const ImageSlider = ({ folderName, className }) => {
 
         await new Promise((resolve) => {
           img.onload = () => {
-            if (!loadedImages.has(url)) { // Prevent duplicate images
-              loadedImages.add(url);
-              imagesArray.push(url);
-              setImages((prevImages) => [...prevImages, url]); // Append to existing images
-            }
+            setImages((prevImages) => [...prevImages, url]); // Update images as each one loads
+            setLoading(false); // As soon as one image is loaded, stop showing loading text
             resolve();
           };
 
           img.onerror = () => {
-            keepLoading = false; // Stop loading on error
-            resolve(); // Resolve the promise to exit the loop
+            keepLoading = false; // Stop loading when no more images are found
+            resolve();
           };
         });
 
         i++;
       }
-
-      setLoading(false); // Set loading to false once done
     };
 
     loadImages();
@@ -64,7 +57,7 @@ const ImageSlider = ({ folderName, className }) => {
   return (
     <div className='border rounded-3xl border-amber-500 border-opacity-75 bg-amber-600 bg-opacity-15 backdrop-blur-md'>
       <div className={`image-slider ${className}`}>
-        {loading ? (
+        {loading && images.length === 0 ? (
           <div className='flex items-center justify-center h-64'>
             <span className='text-2xl text-gray-500'>Loading...</span>
           </div>
