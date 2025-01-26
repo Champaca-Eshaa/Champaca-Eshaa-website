@@ -21,7 +21,7 @@ const ProductDetails = () => {
       <div className="absolute inset-0 w-3 bg-amber-500 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
       <a
         className="relative text-amber-700 group-hover:text-white font-semibold"
-        href="/assets/pr_catalog.pdf"
+        href="https://drive.google.com/file/d/11Ji7yU-ySt9GBtVOju69aTB20hON0kZ_/view"
         download="Product_Catalog.pdf" // Set the filename for download
         target="_blank"
         rel="noopener noreferrer"
