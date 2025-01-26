@@ -47,9 +47,12 @@ const About = () => {
                 </p>
                 <a
                   className="inline-flex items-center justify-center py-3 text-base font-medium text-center text-white border border-transparent rounded-md px-7 bg-amber-600  hover:bg-opacity-90"
-                  href="#products"
+                  href="https://drive.google.com/file/d/1KxYKuT1417TuB3n7Xg_AbkGEQmPOlhgZ/view"
+                  download="ChampacaEshaa-Brochure.pdf" // Set the filename for download
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  See products
+                  Get Brochure
                 </a>
                 
               </div>
